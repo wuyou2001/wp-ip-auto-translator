@@ -3,7 +3,7 @@
  * Plugin Name: WordPress 智能 IP 多语言自动翻译器
  * Plugin URI: https://github.com/wuyou2001/wp-ip-auto-translator
  * Description: 智能 IP 访客国家识别与全站自动/手动多语言翻译器。支持 Cloudflare CDN 与全球 GeoIP 探测、Google 免费网页翻译引擎、多套开箱即用现代模版、自定义外观样式，并深度支持自建主题与 WooCommerce。
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Wwnine
  * Author URI: https://github.com/wuyou2001
  * Text Domain: wp-ip-auto-translator

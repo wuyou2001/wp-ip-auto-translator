@@ -170,6 +170,7 @@ body > .skiptranslate {
     color: var(--wpit-text-color, #1e293b) !important;
     font-size: 13px;
     gap: 10px;
+    background: transparent;
     transition: background 0.15s ease;
 }
 
@@ -177,10 +178,11 @@ body > .skiptranslate {
     background-color: #f1f5f9;
 }
 
+/* 只有激活项拥有专属浅蓝背景与主题色文字 */
 .wpit-lang-item.active .wpit-lang-choice {
-    background-color: rgba(37, 99, 235, 0.08);
+    background-color: rgba(37, 99, 235, 0.08) !important;
     color: var(--wpit-theme-color, #2563eb) !important;
-    font-weight: 600;
+    font-weight: 600 !important;
 }
 
 .wpit-item-flag {
@@ -197,13 +199,13 @@ body > .skiptranslate {
     font-size: 11px;
 }
 
-/* 对勾图标统一控制：仅在当前激活 active 时显示 */
+/* 对勾图标统一强制控制：默认全隐藏，只有处于 active 的项才展示 */
 .wpit-item-check {
-    display: none;
+    display: none !important;
     margin-left: auto;
     color: var(--wpit-theme-color, #2563eb);
     font-weight: bold;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .wpit-lang-item.active .wpit-item-check {
@@ -298,16 +300,18 @@ body > .skiptranslate {
     text-decoration: none !important;
     color: var(--wpit-text-color, #1e293b) !important;
     font-size: 12px;
+    background: transparent;
 }
 
 .wpit-drop-item a:hover {
     background: #f1f5f9;
 }
 
+/* 只有激活项拥有专属浅蓝背景与主题色文字 */
 .wpit-drop-item.active a {
     color: var(--wpit-theme-color, #2563eb) !important;
-    font-weight: 600;
-    background: rgba(37, 99, 235, 0.06);
+    font-weight: 600 !important;
+    background-color: rgba(37, 99, 235, 0.06) !important;
 }
 
 .wpit-drop-item-flag {
@@ -315,9 +319,9 @@ body > .skiptranslate {
     line-height: 1;
 }
 
-/* 下拉菜单对勾统一受控显隐 */
+/* 下拉菜单对勾统一强制控制：默认全隐藏，只有处于 active 的项才展示 */
 .wpit-drop-item-check {
-    display: none;
+    display: none !important;
     margin-left: auto;
     color: var(--wpit-theme-color, #2563eb);
     font-weight: bold;
@@ -412,7 +416,7 @@ body > .skiptranslate {
 }
 
 .wpit-bar-item.active {
-    background: var(--wpit-theme-color, #2563eb);
+    background: var(--wpit-theme-color, #2563eb) !important;
     color: #ffffff !important;
     font-weight: 600;
 }

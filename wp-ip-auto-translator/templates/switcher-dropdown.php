@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$wrapper_class = 'wpit-dropdown-wrapper';
+$wrapper_class = 'wpit-dropdown-wrapper notranslate';
 if (!empty($custom_class)) {
     $wrapper_class .= ' ' . esc_attr($custom_class);
 }
@@ -17,28 +17,28 @@ if (!empty($custom_class)) {
 $current_info = isset($languages[$current_lang]) ? $languages[$current_lang] : (isset($all_pool[$current_lang]) ? $all_pool[$current_lang] : array('name' => 'Language', 'native' => 'Language', 'flag' => '🌐'));
 ?>
 
-<div class="<?php echo esc_attr($wrapper_class); ?>" data-wpit-container>
-    <div class="wpit-dropdown">
-        <button type="button" class="wpit-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+<div class="<?php echo esc_attr($wrapper_class); ?>" data-wpit-container translate="no">
+    <div class="wpit-dropdown notranslate" translate="no">
+        <button type="button" class="wpit-dropdown-toggle notranslate" aria-haspopup="true" aria-expanded="false" translate="no">
             <?php if ($show_flag) : ?>
                 <span class="wpit-drop-flag"><?php echo esc_html($current_info['flag']); ?></span>
             <?php else : ?>
                 <span class="wpit-drop-icon">🌐</span>
             <?php endif; ?>
-            <span class="wpit-drop-label"><?php echo esc_html($current_info['native']); ?></span>
+            <span class="wpit-drop-label notranslate" translate="no"><?php echo esc_html($current_info['native']); ?></span>
             <span class="wpit-drop-arrow">▾</span>
         </button>
-        <div class="wpit-dropdown-menu">
+        <div class="wpit-dropdown-menu notranslate" translate="no">
             <ul class="wpit-dropdown-list">
                 <?php foreach ($languages as $code => $info) : ?>
                     <?php $is_active = ($code === $current_lang); ?>
                     <li class="wpit-drop-item <?php echo $is_active ? 'active' : ''; ?>">
-                        <a href="javascript:void(0);" class="wpit-lang-choice" data-lang="<?php echo esc_attr($code); ?>">
+                        <a href="javascript:void(0);" class="wpit-lang-choice notranslate" data-lang="<?php echo esc_attr($code); ?>" translate="no">
                             <?php if ($show_flag) : ?>
                                 <span class="wpit-drop-item-flag"><?php echo esc_html($info['flag']); ?></span>
                             <?php endif; ?>
-                            <span class="wpit-drop-item-name"><?php echo esc_html($info['native']); ?></span>
-                            <!-- 始终渲染对勾容器，由 CSS 控制根据 active 状态显隐 -->
+                            <span class="wpit-drop-item-name notranslate"><?php echo esc_html($info['native']); ?></span>
+                            <!-- 仅受控于 active class 显隐 -->
                             <span class="wpit-drop-item-check">✓</span>
                         </a>
                     </li>

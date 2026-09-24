@@ -56,7 +56,7 @@
                 setGoogleTranslateCookie(targetLang);
             }
 
-            // 立即且全量更新界面对勾、图标、文字高亮
+            // 立即且全量排他性更新界面对勾、图标、文字高亮
             this.updateSwitcherUI(targetLang);
 
             // 触发 Google 翻译原生 Select 元素更新
@@ -88,7 +88,8 @@
                 floatingFlag.textContent = info.flag || '🌐';
             }
             if (floatingText) {
-                floatingText.textContent = (activeLang.split('-')[0] || activeLang).toUpperCase();
+                var langCodeOnly = (activeLang.split('-')[0] || activeLang).toUpperCase();
+                floatingText.textContent = langCodeOnly;
             }
             if (floatingTrigger) {
                 floatingTrigger.setAttribute('title', info.native || activeLang);
@@ -107,13 +108,13 @@
                 }
             });
 
-            // 3. 更新所有模版中的激活高亮项与对勾迁移 (Active / Checkmark Sync)
-            // 先移除所有旧 active class
-            document.querySelectorAll('.wpit-lang-item.active, .wpit-drop-item.active, .wpit-bar-item.active').forEach(function(el) {
+            // 3. 排他性清理与设置对勾与选中样式 (Active / Checkmark Sync)
+            // 清除页面内所有旧 active class
+            document.querySelectorAll('.wpit-lang-item, .wpit-drop-item, .wpit-bar-item').forEach(function(el) {
                 el.classList.remove('active');
             });
 
-            // 给对应当前语言的项加上 active class
+            // 仅对匹配当前 activeLang 的项追加 active 类名
             document.querySelectorAll('[data-lang="' + activeLang + '"]').forEach(function(el) {
                 var parentItem = el.closest('.wpit-lang-item, .wpit-drop-item, .wpit-bar-item');
                 if (parentItem) {
