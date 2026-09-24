@@ -34,7 +34,7 @@ class WP_Translator_Frontend {
             'wp-ip-translator-switcher',
             $plugin_url . 'assets/css/switcher.css',
             array(),
-            '1.0.1'
+            '1.0.2'
         );
 
         // 动态注入自定义样式变量 (CSS Variables) 与用户自定义 CSS
@@ -59,7 +59,7 @@ class WP_Translator_Frontend {
             'wp-ip-translator-switcher',
             $plugin_url . 'assets/js/switcher.js',
             array(),
-            '1.0.1',
+            '1.0.2',
             true
         );
 
@@ -68,14 +68,16 @@ class WP_Translator_Frontend {
             'wp-ip-translator-google',
             $plugin_url . 'assets/js/google-translate-loader.js',
             array('wp-ip-translator-switcher'),
-            '1.0.1',
+            '1.0.2',
             true
         );
 
         // 预判当前语言与 IP
         $current_lang = $this->get_current_active_language();
 
-        // 传递数据到前端
+        // 传递完整语言字典到前端
+        $active_languages = $this->get_active_languages();
+
         wp_localize_script('wp-ip-translator-switcher', 'wpTranslatorData', array(
             'ajaxUrl'           => admin_url('admin-ajax.php'),
             'nonce'             => wp_create_nonce('wp_translator_nonce'),
@@ -84,6 +86,8 @@ class WP_Translator_Frontend {
             'enableAutoIp'      => (bool)$options['enable_auto_ip'],
             'rememberDays'      => intval($options['remember_days']),
             'availableLangs'    => $options['target_languages'],
+            'languagesPool'     => $active_languages,
+            'showFlag'          => !empty($options['show_flag']),
             'visitorCountry'    => $this->main->geo->detect_visitor_country(),
         ));
     }

@@ -7,11 +7,12 @@
     var data = window.wpTranslatorData || {};
     var sourceLang = data.sourceLang || 'zh-CN';
     var currentLang = data.currentLang || sourceLang;
+    var languagesPool = data.languagesPool || {};
+    var showFlag = (typeof data.showFlag !== 'undefined') ? data.showFlag : true;
 
-    // 格式化语言代码给 Google 翻译库 (如 zh-CN 保持或转换)
+    // 格式化语言代码给 Google 翻译库
     function normalizeGoogleLang(lang) {
         if (!lang) return 'en';
-        // Google 网页翻译通常接受 zh-CN, zh-TW, en, ja, etc.
         return lang;
     }
 
@@ -62,18 +63,46 @@
                 window.location.reload();
             }
 
-            // 更新页面 UI 中的高亮状态
+            // 全量更新页面 UI 中的国旗图标、文本和高亮状态
             this.updateSwitcherUI(targetLang);
         },
 
         updateSwitcherUI: function(activeLang) {
-            // 更新浮动按钮文本
+            var info = languagesPool[activeLang] || {
+                name: activeLang,
+                native: activeLang,
+                flag: '🌐'
+            };
+
+            // 1. 同步更新悬浮球模版 (Floating Badge)
+            var floatingFlag = document.querySelector('.wpit-btn-flag');
             var floatingText = document.querySelector('.wpit-btn-text');
+            var floatingTrigger = document.getElementById('wpit-floating-trigger');
+
+            if (floatingFlag && showFlag) {
+                floatingFlag.textContent = info.flag || '🌐';
+            }
             if (floatingText) {
                 floatingText.textContent = (activeLang.split('-')[0] || activeLang).toUpperCase();
             }
+            if (floatingTrigger) {
+                floatingTrigger.setAttribute('title', info.native || activeLang);
+            }
 
-            // 更新高亮 class
+            // 2. 同步更新下拉菜单模版 (Dropdown)
+            document.querySelectorAll('.wpit-dropdown-toggle').forEach(function(btn) {
+                var dropFlag = btn.querySelector('.wpit-drop-flag');
+                var dropLabel = btn.querySelector('.wpit-drop-label');
+
+                if (dropFlag && showFlag) {
+                    dropFlag.textContent = info.flag || '🌐';
+                }
+                if (dropLabel) {
+                    dropLabel.textContent = info.native || activeLang;
+                }
+            });
+
+            // 3. 更新所有模版中的激活高亮项
             document.querySelectorAll('[data-wpit-container] .active').forEach(function(el) {
                 el.classList.remove('active');
             });
@@ -108,12 +137,22 @@
                     select.dispatchEvent(new Event('change'));
                 }
             }
+            // 确保初始化时图标文字与激活语言完美对齐
+            if (window.WpIpTranslator) {
+                window.WpIpTranslator.updateSwitcherUI(currentLang);
+            }
         }, 300);
     };
 
+    // 页面就绪后立即校准一次 UI 图标与文字
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.WpIpTranslator) {
+            window.WpIpTranslator.updateSwitcherUI(currentLang);
+        }
+    });
+
     // 异步注入 Google 官方 translate.google.com API 脚本
     function loadGoogleTranslateScript() {
-        // 如果初次访问且目标语言与站点源语言不同，先设置 cookie 便于 Google 初始化直出
         if (currentLang && currentLang !== sourceLang) {
             setGoogleTranslateCookie(currentLang);
         }
