@@ -1,0 +1,548 @@
+/**
+ * Modern High-End Admin UI for WordPress IP Auto Translator
+ */
+
+.wp-ip-translator-admin {
+    max-width: 1200px;
+    margin: 20px 20px 40px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #1e293b;
+}
+
+/* 顶部品牌与说明卡片 */
+.wpit-header-card {
+    background: #ffffff;
+    padding: 24px 30px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.wpit-header-left h1 {
+    margin: 0 0 6px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wpit-header-left p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+.wpit-badges-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.wpit-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wpit-badge-version {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.wpit-badge-status {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+/* 实时预览卡片 (Live Switcher Preview) */
+.wpit-preview-container {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 20px 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.wpit-preview-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.wpit-preview-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wpit-preview-tip {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.wpit-preview-stage {
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 现代风格导航选项卡 */
+.wpit-tabs-nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+.wpit-tab-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    outline: none;
+    text-decoration: none !important;
+}
+
+.wpit-tab-btn:hover {
+    color: #1e293b;
+}
+
+.wpit-tab-btn.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    background: transparent;
+}
+
+/* 主面板容器 */
+.wpit-tab-panel {
+    display: none;
+}
+
+.wpit-tab-panel.active {
+    display: block;
+    animation: wpitFadeIn 0.2s ease-in-out;
+}
+
+@keyframes wpitFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 设置主卡片 */
+.wpit-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.wpit-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wpit-card-desc {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+/* 优雅的表单行 */
+.wpit-field-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.wpit-field-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.wpit-field-label {
+    width: 220px;
+    font-weight: 600;
+    color: #334155;
+    font-size: 13.5px;
+    padding-top: 4px;
+}
+
+.wpit-field-content {
+    flex: 1;
+}
+
+.wpit-field-help {
+    font-size: 12.5px;
+    color: #64748b;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+/* 开关 Switch 组件 */
+.wpit-switch-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.wpit-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.wpit-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.wpit-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 24px;
+}
+
+.wpit-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+input:checked + .wpit-slider {
+    background-color: #2563eb;
+}
+
+input:checked + .wpit-slider:before {
+    transform: translateX(20px);
+}
+
+.wpit-switch-text {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* 目标语言精选网格 */
+.wpit-lang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.wpit-lang-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+.wpit-lang-item:hover {
+    border-color: #93c5fd;
+    background: #eff6ff;
+}
+
+.wpit-lang-item input[type="checkbox"] {
+    margin: 0;
+}
+
+.wpit-flag {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.wpit-lang-name {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.wpit-lang-item small {
+    color: #94a3b8;
+    margin-left: auto;
+}
+
+/* 模版视觉选择卡片 */
+.wpit-template-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+@media (max-width: 900px) {
+    .wpit-template-selector {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wpit-tmpl-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.wpit-tmpl-card input[type="radio"] {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+}
+
+.wpit-tmpl-card:hover {
+    border-color: #93c5fd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.wpit-tmpl-card.active {
+    border-color: #2563eb;
+    background: #f0f7ff;
+    box-shadow: 0 0 0 1px #2563eb;
+}
+
+.tmpl-preview {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    width: 100%;
+}
+
+.circle-badge {
+    background: #2563eb;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.select-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    color: #334155;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.bar-line {
+    background: #f1f5f9;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #475569;
+}
+
+.wpit-tmpl-card strong {
+    font-size: 14px;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.tmpl-desc {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+/* 配色选择网格 */
+.wpit-colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.wpit-color-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wpit-color-box span {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.wpit-color-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wpit-color-control input[type="color"] {
+    -webkit-appearance: none;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    width: 38px;
+    height: 34px;
+    cursor: pointer;
+    padding: 2px;
+    background: #fff;
+}
+
+.wpit-color-control input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.wpit-color-control input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+.wpit-color-control input[type="text"] {
+    width: 90px;
+    padding: 5px 8px;
+    font-family: monospace;
+    font-size: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+/* 自建主题开发指南区 */
+.wpit-theme-guide {
+    line-height: 1.6;
+}
+
+.wpit-guide-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+}
+
+.wpit-guide-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wpit-guide-card p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.wpit-code-box {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+
+/* 底部操作固定条 */
+.wpit-save-footer {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.wpit-save-btn {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    padding: 8px 24px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    height: auto !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+}
+
+.wpit-save-btn:hover {
+    background: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+}
