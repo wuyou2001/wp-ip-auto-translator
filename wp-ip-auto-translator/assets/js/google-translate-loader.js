@@ -10,6 +10,16 @@
     var languagesPool = data.languagesPool || {};
     var showFlag = (typeof data.showFlag !== 'undefined') ? data.showFlag : true;
 
+    // 获取二级根域名
+    function getRootDomain() {
+        var host = window.location.hostname;
+        var parts = host.split('.');
+        if (parts.length > 2 && !/^\d+\.\d+\.\d+\.\d+$/.test(host)) {
+            return '; domain=.' + parts.slice(-2).join('.');
+        }
+        return '';
+    }
+
     // 格式化语言代码给 Google 翻译库
     function normalizeGoogleLang(lang) {
         if (!lang) return 'en';
@@ -21,37 +31,33 @@
         var sLang = normalizeGoogleLang(sourceLang);
         var tLang = normalizeGoogleLang(targetLang);
         var cookieVal = '/' + sLang + '/' + tLang;
+        var domain = getRootDomain();
 
-        var hostParts = window.location.hostname.split('.');
-        var domain = '';
-        if (hostParts.length > 1) {
-            domain = '; domain=.' + hostParts.slice(-2).join('.');
-        }
-
-        document.cookie = 'googtrans=' + cookieVal + '; path=/;' + domain;
-        document.cookie = 'googtrans=' + cookieVal + '; path=/;';
+        document.cookie = 'googtrans=' + cookieVal + '; path=/' + domain + '; SameSite=Lax';
+        document.cookie = 'googtrans=' + cookieVal + '; path=/; SameSite=Lax';
     }
 
     // 清除 Google 翻译官方 Cookie 回到原始语言
     function clearGoogleTranslateCookie() {
-        var hostParts = window.location.hostname.split('.');
-        var domain = '';
-        if (hostParts.length > 1) {
-            domain = '; domain=.' + hostParts.slice(-2).join('.');
-        }
-
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;' + domain;
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        var domain = getRootDomain();
+        var expireStr = '; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+        document.cookie = 'googtrans=' + expireStr + domain + '; SameSite=Lax';
+        document.cookie = 'googtrans=' + expireStr + '; SameSite=Lax';
     }
 
     // 核心切换接口暴露至全局
     window.WpIpTranslator = {
         changeLanguage: function(targetLang) {
+            currentLang = targetLang;
+
             if (targetLang === sourceLang) {
                 clearGoogleTranslateCookie();
             } else {
                 setGoogleTranslateCookie(targetLang);
             }
+
+            // 立即且全量更新界面对勾、图标、文字高亮
+            this.updateSwitcherUI(targetLang);
 
             // 触发 Google 翻译原生 Select 元素更新
             var select = document.querySelector('.goog-te-combo');
@@ -59,15 +65,14 @@
                 select.value = normalizeGoogleLang(targetLang);
                 select.dispatchEvent(new Event('change'));
             } else {
-                // 如果 select 尚未注入，重载页面应用 Cookie
+                // 如果 select 尚未注入，重载页面以激活 Cookie
                 window.location.reload();
             }
-
-            // 全量更新页面 UI 中的国旗图标、文本和高亮状态
-            this.updateSwitcherUI(targetLang);
         },
 
         updateSwitcherUI: function(activeLang) {
+            if (!activeLang) activeLang = currentLang;
+
             var info = languagesPool[activeLang] || {
                 name: activeLang,
                 native: activeLang,
@@ -102,15 +107,19 @@
                 }
             });
 
-            // 3. 更新所有模版中的激活高亮项
-            document.querySelectorAll('[data-wpit-container] .active').forEach(function(el) {
+            // 3. 更新所有模版中的激活高亮项与对勾迁移 (Active / Checkmark Sync)
+            // 先移除所有旧 active class
+            document.querySelectorAll('.wpit-lang-item.active, .wpit-drop-item.active, .wpit-bar-item.active').forEach(function(el) {
                 el.classList.remove('active');
             });
 
+            // 给对应当前语言的项加上 active class
             document.querySelectorAll('[data-lang="' + activeLang + '"]').forEach(function(el) {
-                var parentItem = el.closest('li, .wpit-bar-item');
+                var parentItem = el.closest('.wpit-lang-item, .wpit-drop-item, .wpit-bar-item');
                 if (parentItem) {
                     parentItem.classList.add('active');
+                } else if (el.classList.contains('wpit-bar-item')) {
+                    el.classList.add('active');
                 }
             });
         }
@@ -137,14 +146,14 @@
                     select.dispatchEvent(new Event('change'));
                 }
             }
-            // 确保初始化时图标文字与激活语言完美对齐
+            // 确保初始化时对勾与图标和激活语言精确一致
             if (window.WpIpTranslator) {
                 window.WpIpTranslator.updateSwitcherUI(currentLang);
             }
         }, 300);
     };
 
-    // 页面就绪后立即校准一次 UI 图标与文字
+    // 页面就绪后立即校准一次 UI 图标、文字及对勾状态
     document.addEventListener('DOMContentLoaded', function() {
         if (window.WpIpTranslator) {
             window.WpIpTranslator.updateSwitcherUI(currentLang);

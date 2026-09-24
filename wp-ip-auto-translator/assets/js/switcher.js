@@ -1,5 +1,5 @@
 /**
- * 语言切换器交互与偏好存储
+ * 语言切换器交互与全局偏好存储
  */
 (function() {
     'use strict';
@@ -7,7 +7,17 @@
     var data = window.wpTranslatorData || {};
     var rememberDays = data.rememberDays || 30;
 
-    // Cookie 辅助工具
+    // 获取二级根域名，确保全站所有子域及 www / 非 www 完美共享 Cookie
+    function getRootDomain() {
+        var host = window.location.hostname;
+        var parts = host.split('.');
+        if (parts.length > 2 && !/^\d+\.\d+\.\d+\.\d+$/.test(host)) {
+            return '; domain=.' + parts.slice(-2).join('.');
+        }
+        return '';
+    }
+
+    // Cookie 规范写入工具
     function setCookie(name, value, days) {
         var expires = '';
         if (days) {
@@ -15,6 +25,8 @@
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             expires = '; expires=' + date.toUTCString();
         }
+        var domain = getRootDomain();
+        document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/' + domain + '; SameSite=Lax';
         document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/; SameSite=Lax';
     }
 
@@ -86,17 +98,16 @@
             var targetLang = choice.getAttribute('data-lang');
             if (!targetLang) return;
 
-            // 记录用户手动选择（设置 Cookie，避免后续被 IP 重新覆盖）
+            // 立即记录用户手动选择（Cookie + LocalStorage 双保险）
             setCookie('wp_translator_manual_lang', targetLang, rememberDays);
             try {
                 localStorage.setItem('wp_translator_manual_lang', targetLang);
             } catch (err) {}
 
-            // 调用 Google 翻译执行切换
+            // 调用 Google 翻译与 UI 全量同步驱动
             if (window.WpIpTranslator && typeof window.WpIpTranslator.changeLanguage === 'function') {
                 window.WpIpTranslator.changeLanguage(targetLang);
             } else {
-                // 回退刷新页面以激活新语言
                 location.reload();
             }
 
@@ -120,7 +131,7 @@
                         if (res.success && res.data && res.data.country) {
                             setCookie('wp_user_visitor_country', res.data.country, 7);
                         }
-                    } catch (e) {}
+                    } catch (err) {}
                 }
             };
             xhr.send('action=wp_translator_detect_ip&security=' + encodeURIComponent(data.nonce));

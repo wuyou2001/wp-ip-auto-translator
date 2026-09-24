@@ -38,9 +38,8 @@ $current_info = isset($languages[$current_lang]) ? $languages[$current_lang] : (
                                 <span class="wpit-drop-item-flag"><?php echo esc_html($info['flag']); ?></span>
                             <?php endif; ?>
                             <span class="wpit-drop-item-name"><?php echo esc_html($info['native']); ?></span>
-                            <?php if ($is_active) : ?>
-                                <span class="wpit-drop-item-check">✓</span>
-                            <?php endif; ?>
+                            <!-- 始终渲染对勾容器，由 CSS 控制根据 active 状态显隐 -->
+                            <span class="wpit-drop-item-check">✓</span>
                         </a>
                     </li>
                 <?php endforeach; ?>

@@ -2,17 +2,26 @@
  * 语言切换器前台多套模版样式
  */
 
-/* 消除 Google 翻译顶部默认横条扰动 */
-body {
+/* 彻底抑制并消除 Google 翻译顶部横条扰动与页面高度下移 */
+html, body {
     top: 0px !important;
     position: static !important;
 }
+
 .skiptranslate,
 iframe.skiptranslate,
-.goog-te-banner-frame {
+.goog-te-banner-frame,
+#goog-gt-tt {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
+    width: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+body > .skiptranslate {
+    display: none !important;
 }
 
 /* ========================================================
@@ -176,6 +185,7 @@ iframe.skiptranslate,
 
 .wpit-item-flag {
     font-size: 16px;
+    line-height: 1;
 }
 
 .wpit-item-native {
@@ -185,13 +195,19 @@ iframe.skiptranslate,
 .wpit-item-name {
     color: #94a3b8;
     font-size: 11px;
-    margin-left: auto;
 }
 
+/* 对勾图标统一控制：仅在当前激活 active 时显示 */
 .wpit-item-check {
+    display: none;
+    margin-left: auto;
     color: var(--wpit-theme-color, #2563eb);
     font-weight: bold;
-    margin-left: 6px;
+    font-size: 13px;
+}
+
+.wpit-lang-item.active .wpit-item-check {
+    display: inline-block !important;
 }
 
 /* ========================================================
@@ -229,6 +245,7 @@ iframe.skiptranslate,
 
 .wpit-drop-flag {
     font-size: 15px;
+    line-height: 1;
 }
 
 .wpit-drop-arrow {
@@ -293,9 +310,22 @@ iframe.skiptranslate,
     background: rgba(37, 99, 235, 0.06);
 }
 
+.wpit-drop-item-flag {
+    font-size: 15px;
+    line-height: 1;
+}
+
+/* 下拉菜单对勾统一受控显隐 */
 .wpit-drop-item-check {
+    display: none;
     margin-left: auto;
     color: var(--wpit-theme-color, #2563eb);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.wpit-drop-item.active .wpit-drop-item-check {
+    display: inline-block !important;
 }
 
 /* ========================================================
@@ -351,6 +381,7 @@ iframe.skiptranslate,
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
 }
 .wpit-bar-scroll::-webkit-scrollbar {
     display: none;
@@ -384,4 +415,15 @@ iframe.skiptranslate,
     background: var(--wpit-theme-color, #2563eb);
     color: #ffffff !important;
     font-weight: 600;
+}
+
+/* 移动端小屏响应式适配 */
+@media (max-width: 768px) {
+    .wpit-pos-bottom-right,
+    .wpit-pos-bottom-left {
+        bottom: max(var(--wpit-offset-y, 25px), 16px);
+    }
+    .wpit-floating-panel {
+        max-width: 86vw;
+    }
 }
