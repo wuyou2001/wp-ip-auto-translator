@@ -34,16 +34,21 @@ class WP_Translator_Frontend {
             'wp-ip-translator-switcher',
             $plugin_url . 'assets/css/switcher.css',
             array(),
-            '1.0.0'
+            '1.0.1'
         );
 
         // 动态注入自定义样式变量 (CSS Variables) 与用户自定义 CSS
+        $offset_x = isset($options['offset_x']) ? intval($options['offset_x']) : 25;
+        $offset_y = isset($options['offset_y']) ? intval($options['offset_y']) : 25;
+
         $custom_css = "
         :root {
             --wpit-theme-color: " . esc_attr($options['theme_color']) . ";
             --wpit-bg-color: " . esc_attr($options['bg_color']) . ";
             --wpit-text-color: " . esc_attr($options['text_color']) . ";
             --wpit-radius: " . intval($options['border_radius']) . "px;
+            --wpit-offset-x: " . $offset_x . "px;
+            --wpit-offset-y: " . $offset_y . "px;
         }
         " . $options['custom_css'];
 
@@ -54,7 +59,7 @@ class WP_Translator_Frontend {
             'wp-ip-translator-switcher',
             $plugin_url . 'assets/js/switcher.js',
             array(),
-            '1.0.0',
+            '1.0.1',
             true
         );
 
@@ -63,7 +68,7 @@ class WP_Translator_Frontend {
             'wp-ip-translator-google',
             $plugin_url . 'assets/js/google-translate-loader.js',
             array('wp-ip-translator-switcher'),
-            '1.0.0',
+            '1.0.1',
             true
         );
 

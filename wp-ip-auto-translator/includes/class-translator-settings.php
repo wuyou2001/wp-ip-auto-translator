@@ -67,14 +67,14 @@ class WP_Translator_Settings {
             'wpit-admin-style',
             $plugin_url . 'assets/css/admin.css',
             array(),
-            '1.0.0'
+            '1.0.1'
         );
 
         wp_enqueue_script(
             'wpit-admin-script',
             $plugin_url . 'assets/js/admin.js',
             array('jquery'),
-            '1.0.0',
+            '1.0.1',
             true
         );
     }
@@ -94,6 +94,8 @@ class WP_Translator_Settings {
             'switcher_template'   => 'floating',  // floating (悬浮球) | dropdown (下拉菜单) | bar (悬浮条)
             'placement_mode'      => 'auto',      // auto (自动插入前端) | manual (自建主题 hook/短代码/函数)
             'floating_position'   => 'bottom-right', // bottom-right | bottom-left | top-right | top-left
+            'offset_x'            => 25,          // 边距：水平边距 (px)
+            'offset_y'            => 25,          // 边距：垂直边距 (px)
             'append_to_menu'      => 0,           // 是否追加到主导航菜单
             'menu_id'             => '',          // 指定的导航菜单 ID
             'theme_color'         => '#2563eb',   // 主题强调色
@@ -156,6 +158,9 @@ class WP_Translator_Settings {
         $sanitized['placement_mode']    = in_array($input['placement_mode'], array('auto', 'manual'), true) ? $input['placement_mode'] : 'auto';
         $sanitized['floating_position'] = in_array($input['floating_position'], array('bottom-right', 'bottom-left', 'top-right', 'top-left'), true) ? $input['floating_position'] : 'bottom-right';
 
+        $sanitized['offset_x']          = isset($input['offset_x']) ? absint($input['offset_x']) : 25;
+        $sanitized['offset_y']          = isset($input['offset_y']) ? absint($input['offset_y']) : 25;
+
         $sanitized['append_to_menu']    = !empty($input['append_to_menu']) ? 1 : 0;
         $sanitized['menu_id']           = sanitize_text_field($input['menu_id'] ?? '');
 
@@ -191,11 +196,11 @@ class WP_Translator_Settings {
                 </div>
                 <div class="wpit-badges-group">
                     <span class="wpit-badge wpit-badge-status">● 翻译引擎已就绪</span>
-                    <span class="wpit-badge wpit-badge-version">v1.0.0</span>
+                    <span class="wpit-badge wpit-badge-version">v1.0.1</span>
                 </div>
             </div>
 
-            <!-- 实时交互预览台 (Live Preview Stage) -->
+            <!-- 实时交互预览视窗 (Live Preview Stage) -->
             <div class="wpit-preview-container">
                 <div class="wpit-preview-top">
                     <div class="wpit-preview-title">
@@ -324,8 +329,8 @@ class WP_Translator_Settings {
                     </div>
 
                     <div class="wpit-card">
-                        <h3 class="wpit-card-title">📐 挂载与布局位置</h3>
-                        <p class="wpit-card-desc">定义语言切换器在前端页面的呈现方式与停靠锚点。</p>
+                        <h3 class="wpit-card-title">📐 挂载与边距定位</h3>
+                        <p class="wpit-card-desc">定义语言切换器在前端页面的呈现方式、停靠方位及屏幕边缘距离。</p>
 
                         <div class="wpit-field-row">
                             <div class="wpit-field-label">前端挂载模式</div>
@@ -350,6 +355,23 @@ class WP_Translator_Settings {
                                     <option value="top-right" <?php selected('top-right', $options['floating_position']); ?>>右上角</option>
                                     <option value="top-left" <?php selected('top-left', $options['floating_position']); ?>>左上角</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="wpit-field-row wpit-floating-opt">
+                            <div class="wpit-field-label">屏幕边缘边距</div>
+                            <div class="wpit-field-content">
+                                <div style="display:flex; align-items:center; gap:20px;">
+                                    <label style="display:flex; align-items:center; gap:8px; font-weight:500;">
+                                        水平边距 (X轴):
+                                        <input type="number" name="<?php echo esc_attr($this->option_name); ?>[offset_x]" value="<?php echo esc_attr($options['offset_x']); ?>" min="0" max="300" style="width:75px; padding:6px; border-radius:6px;" /> px
+                                    </label>
+                                    <label style="display:flex; align-items:center; gap:8px; font-weight:500;">
+                                        垂直边距 (Y轴):
+                                        <input type="number" name="<?php echo esc_attr($this->option_name); ?>[offset_y]" value="<?php echo esc_attr($options['offset_y']); ?>" min="0" max="300" style="width:75px; padding:6px; border-radius:6px;" /> px
+                                    </label>
+                                </div>
+                                <div class="wpit-field-help">控制悬浮按钮距离屏幕左右边缘及上下边缘的像素间距，避免遮挡右下角在线客服、回到顶部或 WhatsApp 挂件。</div>
                             </div>
                         </div>
 

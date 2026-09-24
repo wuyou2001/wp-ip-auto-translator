@@ -26,10 +26,22 @@ iframe.skiptranslate,
     line-height: 1.4;
 }
 
-.wpit-pos-bottom-right { bottom: 25px; right: 25px; }
-.wpit-pos-bottom-left  { bottom: 25px; left: 25px; }
-.wpit-pos-top-right    { top: 25px; right: 25px; }
-.wpit-pos-top-left     { top: 25px; left: 25px; }
+.wpit-pos-bottom-right { 
+    bottom: var(--wpit-offset-y, 25px); 
+    right: var(--wpit-offset-x, 25px); 
+}
+.wpit-pos-bottom-left { 
+    bottom: var(--wpit-offset-y, 25px); 
+    left: var(--wpit-offset-x, 25px); 
+}
+.wpit-pos-top-right { 
+    top: var(--wpit-offset-y, 25px); 
+    right: var(--wpit-offset-x, 25px); 
+}
+.wpit-pos-top-left { 
+    top: var(--wpit-offset-y, 25px); 
+    left: var(--wpit-offset-x, 25px); 
+}
 
 /* 悬浮圆形按钮 */
 .wpit-floating-btn {
