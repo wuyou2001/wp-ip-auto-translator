@@ -43,8 +43,7 @@ $current_info = isset($languages[$current_lang]) ? $languages[$current_lang] : (
                                 <span class="wpit-item-flag"><?php echo esc_html($info['flag']); ?></span>
                             <?php endif; ?>
                             <span class="wpit-item-native"><?php echo esc_html($info['native']); ?></span>
-                            <span class="wpit-item-name"><?php echo esc_html($info['name']); ?></span>
-                            <!-- 仅受控于 active class 显隐 -->
+                            <!-- 仅激活语言展示对勾，未激活项绝无对勾 -->
                             <span class="wpit-item-check">✓</span>
                         </a>
                     </li>

@@ -34,10 +34,10 @@ class WP_Translator_Frontend {
             'wp-ip-translator-switcher',
             $plugin_url . 'assets/css/switcher.css',
             array(),
-            '1.0.2'
+            '1.0.5'
         );
 
-        // 动态注入自定义样式变量 (CSS Variables) 与用户自定义 CSS
+        // 动态注入自定义样式变量 (CSS Variables) 与强优先级对勾隔离规则
         $offset_x = isset($options['offset_x']) ? intval($options['offset_x']) : 25;
         $offset_y = isset($options['offset_y']) ? intval($options['offset_y']) : 25;
 
@@ -50,6 +50,9 @@ class WP_Translator_Frontend {
             --wpit-offset-x: " . $offset_x . "px;
             --wpit-offset-y: " . $offset_y . "px;
         }
+        /* 强制对勾隔离：非激活项绝不显示对勾 */
+        .wpit-item-check, .wpit-drop-item-check { display: none !important; }
+        .wpit-lang-item.active .wpit-item-check, .wpit-drop-item.active .wpit-drop-item-check { display: inline-block !important; }
         " . $options['custom_css'];
 
         wp_add_inline_style('wp-ip-translator-switcher', $custom_css);
@@ -59,7 +62,7 @@ class WP_Translator_Frontend {
             'wp-ip-translator-switcher',
             $plugin_url . 'assets/js/switcher.js',
             array(),
-            '1.0.2',
+            '1.0.5',
             true
         );
 
@@ -68,7 +71,7 @@ class WP_Translator_Frontend {
             'wp-ip-translator-google',
             $plugin_url . 'assets/js/google-translate-loader.js',
             array('wp-ip-translator-switcher'),
-            '1.0.2',
+            '1.0.5',
             true
         );
 
